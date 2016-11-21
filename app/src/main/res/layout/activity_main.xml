@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/etValueA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/invait_edit_value_1"/>
+
+    <TextView
+        android:id="@+id/tvAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size"
+        android:text="действие"/>
+
+    <EditText
+        android:id="@+id/etValueB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/invait_edit_value_2"/>
+
+    <TextView
+        android:id="@+id/tvSolution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sum"/>
+
+        <Button
+            android:id="@+id/btnDifference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/difference"/>
+
+        <Button
+            android:id="@+id/btnMultiplication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/multiplication"/>
+
+        <Button
+            android:id="@+id/btnDivision"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/division"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnEqually"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/equally"/>
+
+</LinearLayout>
