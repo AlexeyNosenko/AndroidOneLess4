@@ -1,6 +1,7 @@
 package com.example.nosenko.androidoneless4;
 
-import android.support.v4.media.session.PlaybackStateCompat;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-// поправить интерфейс, два стиля
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private enum actions {SUM,
@@ -33,10 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private float value_a = 0;
     private float value_b = 0;
     private String solution = null;
+    private actions action = null;
 
     private final String MASK = "%.3f";
-
-    private actions action = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etValueA.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable s) {
-                value_a = Float.parseFloat(etValueA.getText().toString());
+                setValueA();
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etValueB.addTextChangedListener(new TextWatcher(){
             @Override
             public void afterTextChanged(Editable s) {
-                value_b = Float.parseFloat(etValueB.getText().toString());
+                setValueB();
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,17 +90,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnEqually.setOnClickListener(this);
 
         if (savedInstanceState != null){
-            value_a = savedInstanceState.getFloat("value_a");
-            etValueA.setText(String.format(MASK, value_a));
+            etValueA.setText(savedInstanceState.getString("value_a"));
+            setValueA();
 
-            value_b = savedInstanceState.getFloat("value_b");
-            etValueB.setText(String.format(MASK, value_b));
+            etValueB.setText(savedInstanceState.getString("value_b"));
+            setValueB();
 
             action = (actions) savedInstanceState.getSerializable("action");
             setActionText();
 
             solution = savedInstanceState.getString("solution");
             tvSolution.setText(solution);
+        }
+    }
+
+    private void setValueA() {
+        try {
+            value_a = Float.parseFloat(etValueA.getText().toString());
+        }catch (Exception e){
+            value_a = 0;
+        }
+    }
+
+    private void setValueB(){
+        try{
+            value_b = Float.parseFloat(etValueB.getText().toString());
+        }catch (Exception e){
+            value_b = 0;
         }
     }
 
@@ -127,6 +142,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setActionText(){
+
+        if (action == null) return;
+
         TextView tvAction = (TextView)findViewById(R.id.tvAction);
         switch (action){
             case SUM:
@@ -150,9 +168,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Log.d("onClick", "onClick");
         if (v.getId() == btnEqually.getId()){
-            Log.d("onClick", "btnEqually");
-            solution = calculated(value_a, value_b, action);
-            tvSolution.setText(solution);
+            if (action != null) {
+                Log.d("onClick", "btnEqually");
+                solution = calculated(value_a, value_b, action);
+                tvSolution.setText(solution);
+            }
         }
         else{
             if (v.getId() == btnSum.getId()){
@@ -174,15 +194,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("onClick", "btnDivision");
                 action = actions.DIVISION;
             }
-
             setActionText();
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
-        savedInstanceState.putFloat("value_a", value_a);
-        savedInstanceState.putFloat("value_b", value_b);
+        savedInstanceState.putString("value_a", etValueA.getText().toString());
+        savedInstanceState.putString("value_b", etValueB.getText().toString());
         savedInstanceState.putSerializable("action", action);
         savedInstanceState.putString("solution", solution);
     }
