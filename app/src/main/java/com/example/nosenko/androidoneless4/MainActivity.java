@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private enum actions {SUM,
                           DIFFERENCE,
                           MULTIPLICATION,
-                          DIVISION};
+                          DIVISION}
 
 
     private EditText etValueA = null;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String solution = null;
     private actions action = null;
 
-    private final String MASK = "%.3f";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String calculated(float a, float b, actions action){
         final String divisionZero = "NaN";
+        final String MASK = "%.3f";
         switch (action){
             case SUM:
                 return String.format(MASK,  (a + b));
